@@ -2,6 +2,7 @@ import Filtros from '@/components/filtros';
 import Vue from 'vue';
 import Vuetify from "vuetify"
 import { mount, createLocalVue } from '@vue/test-utils';
+import { jest } from '@jest/globals';
 
 Vue.use(Vuetify);
 
@@ -70,5 +71,53 @@ describe('Filtros', () => {
 
         expect(selectRegiao.exists()).toBe(false);
         expect(selectOutro.exists()).toBe(true);
+    })
+
+    // Tentativa de testar a função que é chamada quando o tipo de filtro é alterado
+
+    // test('Se quando pesquisar é pressionado, o filtro certo é selecionado', async () => {
+    //     const wrapper = mount(Filtros, {
+    //         localVue,
+    //         vuetify,
+    //     })
+
+    //     const input = wrapper.find('#filtro');
+
+    //     const update = jest.fn();
+
+    //     wrapper.vm.$on('change', update);
+
+    //     input.element.value = "region";
+    //     input.trigger('@change');
+
+    //     await wrapper.vm.$nextTick();
+
+    //     expect(update).toHaveBeenCalled(); // Não chama a função
+    // })
+
+    test('Teste', async () => {
+        const wrapper = mount(Filtros, {
+            localVue,
+            vuetify,
+        })
+
+        jest.spyOn(wrapper.vm, 'outroFiltroSelecionado');
+
+        const autocomplete = wrapper.find('#filtro');
+        const input = wrapper.find('input[type="text"]');
+
+        wrapper.vm.filtroSelecionado();
+        expect(wrapper.vm.isOther).toBe(true);
+
+        expect(input.isVisible()).toBe(true);
+        //expect(autocomplete.element.value).toBe("region");;
+
+        input.vm.$emit('change', { target: { value: "region" } });
+        wrapper.vm.$emit('filtroPassado', { name: "region" });
+
+        expect(wrapper.vm.outroFiltroSelecionado).toHaveBeenCalled();
+        await wrapper.vm.$nextTick();
+        expect(wrapper.emitted('filtroPassado')[0][0]).toMatchObject({ name: "region" });
+
     })
 })

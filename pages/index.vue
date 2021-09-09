@@ -8,7 +8,7 @@
 				<v-container>
 					<v-row>
 						<v-col cols="12">
-							<v-row justify="left">
+							<v-row justify="start">
 								<filtros
 									@filtroPassado="filtrarPaises($event)"
 								></filtros></v-row></v-col
@@ -41,9 +41,10 @@ import Filtros from '../components/filtros.vue'
 import MostrarPaises from '../components/mostrarPaises.vue'
 import Pais from '../components/pais.vue'
 import axios from 'axios'
+import { getPaises } from '../services/config'
 
 export default {
-	name: 'App',
+	name: 'Index',
 	components: {
 		Navbar,
 		Filtros,
@@ -81,14 +82,8 @@ export default {
 		},
 
 		async listarTodos(value = 'all') {
-			return await axios
-				.get(`https://restcountries.eu/rest/v2/${value}`)
-				.then((response) => {
-					this.paises = response.data
-				})
-				.catch((error) => {
-					window.alert(`Ocorreu um erro ${error}`)
-				})
+			const dataDoDb = await this.$axios.$get(`/${value}`)
+			this.paises = dataDoDb
 		},
 
 		mudarDeTela(pais) {

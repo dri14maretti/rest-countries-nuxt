@@ -1,12 +1,13 @@
 <template>
 	<div data-app>
 		<v-container fluid>
-			<v-row justify="center">
-				<v-col class="d-flex" cols="12" sm="2">
-					<v-select
+			<v-row justify="start">
+				<v-col class="d-flex" cols="4" sm="2">
+					<v-autocomplete
 						v-model="filter"
 						:items="tiposDeFiltro"
 						item-text="name"
+						item-value="value"
 						label="Filtrar por"
 						color="#6d2080"
 						placeholder="Escolha uma das opções"
@@ -14,13 +15,13 @@
 						return-object
 						id="filtro"
 						dense
-					></v-select>
+					></v-autocomplete>
 				</v-col>
 
-				<v-col class="d-flex" cols="12" sm="2">
-					<v-select
+				<v-col class="d-flex" cols="4" sm="2">
+					<v-autocomplete
 						v-if="isRegion"
-						data-testid="select-region"
+						data-testid="autov-autocomplete-region"
 						v-model="filtroDeRegiaoSelecionado"
 						:items="regions"
 						item-text="name"
@@ -32,7 +33,7 @@
 						id="regiao"
 						return-object
 						dense
-					></v-select>
+					></v-autocomplete>
 					<v-text-field
 						v-if="isOther"
 						v-model="filtroOutroSelecionado"
@@ -50,7 +51,7 @@
 					></v-text-field>
 				</v-col>
 
-				<v-col class="d-flex" cols="12" sm="3">
+				<v-col class="d-flex" cols="4" sm="3">
 					<v-btn
 						v-on:click="filtrar()"
 						color="#6d2080"
