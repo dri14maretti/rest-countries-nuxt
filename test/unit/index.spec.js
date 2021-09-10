@@ -23,7 +23,6 @@ describe('index', () => {
     });
 
     test('se a página está buscando os dados na api corretamente', async () => {
-        console.log(wrapper.vm.paises);
         expect(wrapper.vm.paises.length).toBeGreaterThan(200);
     })
 })

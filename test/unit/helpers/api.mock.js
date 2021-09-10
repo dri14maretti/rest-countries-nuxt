@@ -5,7 +5,6 @@ const Mocker = (method, url, data, overwritePath = null) => {
     return new Promise((resolve, reject) => {
         const urlWithoutParams = url ? url.split('?')[0] : '/all'
         const fileName = method.toLowerCase() + urlWithoutParams.toLowerCase().replace('/', '.');
-        console.log(fileName);
         let responseJson
         if (overwritePath) {
             overwritePath = overwritePath.replace('.spec', '')
@@ -29,7 +28,6 @@ const Mocker = (method, url, data, overwritePath = null) => {
             }
 
         }
-        console.log(fileName, overwritePath, responseJson);
         if (!responseJson) {
             responseJson = require('../json/overwrites/' + fileName + '.json')
         }
