@@ -95,6 +95,39 @@ describe('Filtros', () => {
     //     expect(update).toHaveBeenCalled(); // Não chama a função
     // })
 
+    test('se a função filtroSelecionado está trocando os valores que precisava trocar', () => {
+        const wrapper = mount(Filtros, {
+            localVue,
+            vuetify,
+        })
+
+        wrapper.setData({ filter: { name: "Região", value: "region" } });
+
+        wrapper.vm.filtroSelecionado();
+
+        expect(wrapper.vm.isOther).toBe(false);
+        expect(wrapper.vm.isRegion).toBe(true);
+    })
+
+    test('se, quando a other for selecionada, emite um evento', async () => {
+        const wrapper = mount(Filtros, {
+            localVue,
+            vuetify,
+        });
+
+        const spy = jest.spyOn(wrapper.vm, 'outroFiltroSelecionado');
+
+        wrapper.setData({ isOther: true })
+        await wrapper.vm.$nextTick();
+
+        const selectOutro = wrapper.find('#outro');
+
+        selectOutro.trigger('change');
+
+        expect(spy).toHaveBeenCalled();
+
+    })
+
     test('Teste', async () => {
         const wrapper = mount(Filtros, {
             localVue,
